@@ -31,6 +31,7 @@ class WikisController < ApplicationController
     @wiki = Wiki.find(params[:id])
     @wiki.title = params[:wiki][:title]
     @wiki.body = params[:wiki][:body]
+    ApplicationPolicy.new(current_user, @wiki).edit?
 
     if @wiki.save
       flash[:notice] = "Post was updated."
