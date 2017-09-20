@@ -3,10 +3,10 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   has_many :wikis, dependent: :destroy
 
-  after_initialize :default
+  before_create :set_role
 
-  def default
-    self.role ||= standard
+  def set_role
+    self.role ||= :standard
   end
 
   enum role: [:standard, :premium, :admin]
