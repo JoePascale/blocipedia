@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
-  get 'charges/create'
-
   devise_for :users
 
   resources :wikis
 
   resources :charges, only: [:new, :create]
+
+  resources :downgrades, only: [:create]
 
   authenticated :user do
     root 'wikis#index', as: :authenticated_root
