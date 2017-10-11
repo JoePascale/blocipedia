@@ -1,22 +1,27 @@
 class CollaboratorsController < ApplicationController
-  def index
-    @collaborators = Collaborator.all
-    if params[:search]
-      @collaboratoras = Collaborator.search(params[:search]).order(:name)
+  def create
+    @user = User.find_by(email: params[:email])
+    @wiki = Wiki.find(params[:wiki_id])
+    @collaborator = Collaborator.new(user: @user, wiki: @wiki)
+
+    if @collaborator.save
+      flash[:notice] = "You added a new collaborator."
+      #redirect_to @wiki
     else
-      @collaborators = Collaborator.all.order(:name)
+      flash.now[:alert] = "There was an error adding this collaborator."
+      #redirect_to @wiki
     end
   end
 
-  def show
-    @collaborator = Collaborator.find(params[:name])
-  end
+  def destroy
+    @collaborator = Collaborator.find(params[:id])
 
-  def new
-    @collaborator = Collaborator.new
-  end
-
-  def edit
-    @collaborator = Collaborator.find(params[:name])
+    if @collaborator.destroy
+      flash[:notice] = "\"#{@collaborator.id}\" was removed successfully."
+      redirect_to @wiki
+    else
+      flash.now[:alert] = "There was an error removing that collaborator."
+      redirect_to @wiki
+    end
   end
 end

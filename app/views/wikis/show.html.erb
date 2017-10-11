@@ -11,19 +11,21 @@
   </div>
   <hr>
   <div class="col-md-8">
-    <h4> Wiki Collaborators: </h4>
-    <p><%= @wiki.collaborators %></p>
-    <p>{add checkbox to remove each collaborator here}</p>
+    <% if @wiki.collaborators.any? %>
+      <h4> Wiki Collaborators: </h4>
+      <% @wiki.collaborators.each do |collabo| %>
+        <h4><%= collabo.user.email %></h4>
+        <%= link_to "Remove Collaborator", wiki_collaborator_path(wiki_id: @wiki.id, email: collabo.user.email) %>
+      <% end %>
+    <% end %>
     <hr>
   </div>
-  <%# if current_user.id == @wiki.user.id %>
-    <div class="col-md-8">
-      <h4> Add a Collaborator: </h4>
-      <%= form_for(user_session_path, :method => "get", id: "search-form") do %>
-        <%= text_field_tag :search, params[:search], placeholder: "Search Users" %>
-        <%= submit_tag "Submit", :name => nil %>
-      <% end %>
-      <hr>
-    </div>
-  <%# end %>
+  <div class="col-md-8">
+    <h4> Add a Collaborator: </h4>
+    <%= form_tag(wiki_collaborators_path(wiki_id: @wiki.id)) do %>
+      <%= text_field_tag :email, params[:email], placeholder: "Enter User Email" %>
+      <%= submit_tag "Submit" %>
+    <% end %>
+    <hr>
+  </div>
 </div>
