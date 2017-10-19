@@ -14,8 +14,8 @@
     <% if @wiki.collaborators.any? %>
       <h4> Wiki Collaborators: </h4>
       <% @wiki.collaborators.each do |collabo| %>
-        <h4><%= collabo.user.email %></h4>
-        <%= link_to "Remove Collaborator", wiki_collaborator_path(wiki_id: @wiki.id, email: collabo.user.email) %>
+        <h4><% collabo.user.email %></h4>
+        <% link_to "Remove Collaborator", wiki_collaborator_path(wiki_id: @wiki.id, email: collabo.user.email, method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure you want to remove this collaborator?' } %>
       <% end %>
     <% end %>
     <hr>

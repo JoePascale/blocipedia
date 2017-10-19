@@ -6,10 +6,10 @@ class CollaboratorsController < ApplicationController
 
     if @collaborator.save
       flash[:notice] = "You added a new collaborator."
-      #redirect_to @wiki
+      redirect_to @wiki
     else
       flash.now[:alert] = "There was an error adding this collaborator."
-      #redirect_to @wiki
+      redirect_to @wiki
     end
   end
 
